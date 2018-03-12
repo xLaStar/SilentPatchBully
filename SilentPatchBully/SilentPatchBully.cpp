@@ -24,6 +24,8 @@
 
 #endif
 
+void InjectFixedD3DXFuncs();
+
 
 static HINSTANCE hDLLModule;
 
@@ -537,6 +539,10 @@ void InjectHooks()
 
 	// Don't fail if call to CoInitializeEx didn't return S_TRUE (maybe something else called CoInitializeEx on us already)
 	Nop( 0x5AE2B4, 6 );
+
+	// Fixes to make the game fully large address aware
+	// While normally /LARGEADDRESSAWARE isn't enabled for the game, it may ease debugging
+	InjectFixedD3DXFuncs();
 }
 
 static void ProcHook()
